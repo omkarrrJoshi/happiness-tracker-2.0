@@ -1,4 +1,4 @@
 PORT=5000
 NODE_ENV=local
-DATABASE_URL=postgres://<user>:<password>@localhost:5432/mydb
+DATABASE_URL=postgres://<user>:<password>@localhost:5432/happiness-tracker
 HOST_URL=http://localhost:5000
