@@ -8,8 +8,8 @@ exports.up = function (knex) {
     table.specificType("target", "INTEGER[7]").notNullable(); // Array of 7 integers
     table.string("link").nullable();
     table.text("description").nullable();
-    table.timestamp("start_date").notNullable();
-    table.timestamp("end_date").nullable();
+    table.date("start_date").notNullable();
+    table.date("end_date").nullable();
     table.timestamp("created_at").notNullable().defaultTo(knex.fn.now());
     table.timestamp("updated_at").notNullable().defaultTo(knex.fn.now());
     table.timestamp("deleted_at").nullable();
