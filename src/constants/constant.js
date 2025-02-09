@@ -1,4 +1,5 @@
 //envs
-export const LOCAL = 'local';
-export const DEVELOPMENT = 'development';
-export const PRODUCTION = 'production';
+const LOCAL = 'local';
+const DEVELOPMENT = 'development';
+const PRODUCTION = 'production';
+module.exports={LOCAL, DEVELOPMENT, PRODUCTION}
