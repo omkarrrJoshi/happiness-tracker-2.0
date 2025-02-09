@@ -1,10 +1,11 @@
 const { Pool } = require("pg");
 const config = require("../config/config");
+const { LOCAL } = require("../constants/constant");
 
 // Create a new PostgreSQL connection pool
 const pool = new Pool({
     connectionString: config.databaseUrl,
-    ssl: config.env === "production" ? { rejectUnauthorized: false } : false, 
+    ssl: config.env !== LOCAL ? { rejectUnauthorized: false } : false, 
 });
 
 // Automatically log a success message when the connection is established
