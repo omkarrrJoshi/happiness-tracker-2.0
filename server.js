@@ -1,7 +1,7 @@
 const app = require("./src/app");
 
 const config = require('./src/config/config')
-const { testDbConnection } = require("./utils/db")
+const { testDbConnection } = require("./src/utils/db")
 
 // Test database connection on startup
 testDbConnection();
