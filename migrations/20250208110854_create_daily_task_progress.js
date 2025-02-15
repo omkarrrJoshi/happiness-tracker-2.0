@@ -7,7 +7,7 @@ exports.up = function (knex) {
       .references("id")
       .inTable("daily_task_ref") // Foreign Key Reference
       .onDelete("CASCADE"); // If parent is deleted, delete child rows automatically
-
+    table.uuid("user_id").notNullable();
     table.integer("daily_progress").notNullable();
     table.integer("daily_target").notNullable();
     table.date("date").notNullable();

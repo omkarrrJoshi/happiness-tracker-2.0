@@ -2,7 +2,9 @@ const { DAILY_TASK_PROGRESS } = require("../../constants/tables");
 
 class DailyTaskProgress {
   constructor(data) {
+    this.id = data.id;
     this.daily_task_ref_id = data.daily_task_ref_id;
+    this.user_id = data.user_id;
     this.daily_progress = data.daily_progress;
     this.daily_target = data.daily_target;
     this.date = data.date;
@@ -14,12 +16,12 @@ class DailyTaskProgress {
   async save(pool) {
     try {
       const query = `
-        INSERT INTO ${DAILY_TASK_PROGRESS} (daily_task_ref_id, daily_progress, daily_target, date, created_at, updated_at, deleted_at)
-        VALUES ($1, $2, $3, $4,  NOW(), NOW(), $5)
+        INSERT INTO ${DAILY_TASK_PROGRESS} (daily_task_ref_id, user_id, daily_progress, daily_target, date, created_at, updated_at, deleted_at)
+        VALUES ($1, $2, $3, $4, $5, NOW(), NOW(), $6)
         RETURNING *;
       `;
       const values = [
-        this.daily_task_ref_id, this.daily_progress, this.daily_target, 
+        this.daily_task_ref_id, this.user_id, this.daily_progress, this.daily_target, 
         this.date, this.deleted_at
       ];
 
@@ -57,12 +59,12 @@ class DailyTaskProgress {
     try {
       const query = `
         UPDATE ${DAILY_TASK_PROGRESS}
-        SET daily_progress = $1, daily_target = $2, date = $3, updated_at = $4
-        WHERE id = $5
+        SET daily_progress = $1, daily_target = $2, updated_at = NOW()
+        WHERE id = $3
         RETURNING *;
       `;
       const values = [
-        this.daily_progress, this.daily_target, this.date, new Date(), this.id
+        this.daily_progress, this.daily_target, this.id
       ];
 
       const { rows } = await pool.query(query, values);

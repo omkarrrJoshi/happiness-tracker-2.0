@@ -39,14 +39,12 @@ const createDailyTaskService = async (req) => {
     const dailyTaskProgressData = await createDailyTaskProgress(dailyTaskRefData, body.date);
 
     // 🔹 Construct Response
-    const responseData = new DailyTaskResponse({
-      ...dailyTaskRefData,
-      ...dailyTaskProgressData,
-    });
+    const responseData = new DailyTaskResponse(dailyTaskRefData, dailyTaskProgressData);
 
     return {
       success: true,
       data: responseData,
+      message: `${body.type} added successfully`
     };
   } catch ( error) {
     return {
@@ -69,6 +67,7 @@ const getDailyTasksService = async (req) => {
       WHERE user_id = $1 AND type = $2 
       AND start_date <= $3 
       AND (end_date IS NULL OR end_date >= $3)
+      AND deleted_at IS NULL
     `;
     const refResult = await pool.query(refQuery, [user_id, type, givenDate]);
     const taskRefs = refResult.rows;
@@ -83,7 +82,7 @@ const getDailyTasksService = async (req) => {
       // 🔹 Check if progress exists
       const progressQuery = `
         SELECT * FROM ${DAILY_TASK_PROGRESS} 
-        WHERE daily_task_ref_id = $1 AND date = $2
+        WHERE daily_task_ref_id = $1 AND date = $2 AND deleted_at IS NULL
       `;
       const progressResult = await pool.query(progressQuery, [taskRef.id, givenDate]);
       let taskProgress = progressResult.rows[0];
@@ -93,16 +92,19 @@ const getDailyTasksService = async (req) => {
         taskProgress = await createDailyTaskProgress(taskRef, givenDate);
       }
 
+      console.log('taskRef: ', taskRef);
+      console.log('taskProgress: ', taskProgress);
       // 🔹 Construct response object
-      const taskResponse = new DailyTaskResponse({
-        ...taskRef,
-        ...taskProgress,
-      });
+      const taskResponse = new DailyTaskResponse(taskRef, taskProgress);
 
       responseTasks.push(taskResponse);
     }
 
-    return { success: true, data: responseTasks };
+    return { 
+      success: true, 
+      data: responseTasks, 
+      message: `${type} fetched successfully for date ${date}` 
+    };
 
   } catch (error) {
     return {
@@ -122,6 +124,7 @@ const createDailyTaskProgress = async (dailyTaskRefData, date) => {
 
     const dailyTaskProgressBody = {
       daily_task_ref_id: dailyTaskRefData.id,
+      user_id: dailyTaskRefData.user_id,
       daily_progress: 0,
       daily_target: dailyTarget,
       date: date,

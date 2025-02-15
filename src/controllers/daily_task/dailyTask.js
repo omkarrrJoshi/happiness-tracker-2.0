@@ -5,7 +5,7 @@ const createDailyTask = async (req, res) => {
   try{
     const response = await createDailyTaskService(req);
     if(response.success){
-      successResponse(res, response.data, 'shloka added successfully');
+      successResponse(res, response.data, response.message);
     }else{
       failureResponse(res, response.message, response.status, response.errors);
     }
@@ -19,7 +19,7 @@ const getDailyTasks = async (req, res) => {
   try{
     const response = await getDailyTasksService(req);
     if(response.success){
-      successResponse(res, response.data, 'shloka added successfully');
+      successResponse(res, response.data, response.message);
     }else{
       failureResponse(res, response.message, response.status, response.errors);
     } 
