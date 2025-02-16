@@ -8,7 +8,7 @@ const updateDailyTaskRefService = async (req) => {
 
     // 1. Fetch the existing daily task reference
     const checkQuery = `
-      SELECT * FROM ${DAILY_TASK_REF} 
+      SELECT * FROM daily_task_ref 
       WHERE id = $1 AND user_id = $2 AND deleted_at IS NULL
     `;
     const checkResult = await pool.query(checkQuery, [id, user_id]);
