@@ -3,7 +3,7 @@ const { pool } = require("../../utils/db");
 const updateDailyTaskRefService = async (req) => {
   try {
     const { id } = req.params;
-    const { user_id } = req.query;
+    const user_id = req.headers["user-id"];    
     const { name, target, start_date, end_date, link, description } = req.body;
 
     // 1. Fetch the existing daily task reference

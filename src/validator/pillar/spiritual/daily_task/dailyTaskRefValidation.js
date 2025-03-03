@@ -1,9 +1,9 @@
-const { body, query, param } = require("express-validator");
+const { body, param, header } = require("express-validator");
 
 // Validation rules for updating a daily task (PUT)
 const updateDailyTaskRefValidation = [
   param("id").isUUID().withMessage("Task ID must be a valid UUID"),
-  query("user_id").isUUID().withMessage("User ID must be a valid UUID"),
+  header("user-id").notEmpty().withMessage("User ID must be a valid string"),
   body("name").optional().isString("Name must be valid string"),
   body("target")
     .optional()

@@ -1,10 +1,11 @@
-const { body, query, param } = require("express-validator");
+const { body, query, param, header } = require("express-validator");
 
 // Validation rules for creating a new daily task (POST)
 const createDailyTaskValidation = [
-  body("user_id").isUUID().withMessage("User ID must be a valid UUID"),
+  body("user_id").notEmpty().withMessage("User ID must be a valid string"),
   body("name").notEmpty().withMessage("Name is required"),
   body("type").notEmpty().withMessage("Type is required"),
+  body("pillar").notEmpty().withMessage("Pillar is required"),
   body("target")
     .isArray({ min: 7, max: 7 })
     .withMessage("Target must be an array of 7 integers")
@@ -23,7 +24,7 @@ const createDailyTaskValidation = [
 
 // Validation rules for querying tasks (GET)
 const getDailyTasksValidation = [
-  query("user_id").isUUID().withMessage("User ID must be a valid UUID"),
+  header("user-id").notEmpty().withMessage("User ID must be a valid string"),
   query("date").isISO8601().withMessage("date must be a valid date"),
   query("type").isString().withMessage("type must be a string"),
 ];

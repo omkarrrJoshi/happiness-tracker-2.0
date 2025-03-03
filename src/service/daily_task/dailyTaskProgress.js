@@ -4,7 +4,7 @@ const DailyTaskProgress = require("../../models/daily_task/DailyTaskProgress");
 const updateDailyTaskProgressService = async (req) => {
   try {
     const { id } = req.params;
-    const { user_id } = req.query;
+    const user_id = req.headers["user-id"];
     const { daily_target, daily_progress } = req.body;
 
     const dailyTaskProgressData = await DailyTaskProgress.findById(pool, id)

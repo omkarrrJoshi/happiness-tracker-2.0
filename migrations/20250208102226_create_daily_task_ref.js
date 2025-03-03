@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable("daily_task_ref", (table) => {
     table.uuid("id").primary().defaultTo(knex.raw("gen_random_uuid()")); // Primary key
-    table.uuid("user_id").notNullable(); // Foreign key reference to users
+    table.string("user_id").notNullable(); // Foreign key reference to users
     table.string("name").notNullable();
     table.string("pillar").notNullable();
     table.string("type").notNullable();

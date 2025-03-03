@@ -58,7 +58,8 @@ const createDailyTaskService = async (req) => {
 
 const getDailyTasksService = async (req) => {
   try {
-    const { user_id, date, type } = req.query;
+    const user_id = req.headers["user-id"];
+    const { date, type } = req.query;
     const givenDate = new Date(date);
 
     // 🔹 Fetch Daily Task References
@@ -92,8 +93,6 @@ const getDailyTasksService = async (req) => {
         taskProgress = await createDailyTaskProgress(taskRef, givenDate);
       }
 
-      console.log('taskRef: ', taskRef);
-      console.log('taskProgress: ', taskProgress);
       // 🔹 Construct response object
       const taskResponse = new DailyTaskResponse(taskRef, taskProgress);
 
