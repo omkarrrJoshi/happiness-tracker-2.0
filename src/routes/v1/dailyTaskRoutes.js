@@ -8,7 +8,8 @@ const { updateDailyTaskRefValidation } = require('../../validator/pillar/spiritu
 const { updateDailyTaskProgressValidation } = require('../../validator/pillar/spiritual/daily_task/dailyTaskProgressValidation');
 const { updateDailyTaskRef } = require('../../controllers/daily_task/dailyTaskRef');
 const { updateDailyTaskProgress } = require('../../controllers/daily_task/dailyTaskProgress');
-
+const { getDailyTaskTracking } = require('../../controllers/daily_task/dailyTaskTracker');
+const { getDailyTaskTrackerValidation } = require('../../validator/pillar/spiritual/daily_task/dailyTaskTrackerValidation');
 router.post(
   '/',
   validateRoute(createDailyTaskValidation),
@@ -31,6 +32,12 @@ router.put(
   '/progress/:id',
   validateRoute(updateDailyTaskProgressValidation),
   updateDailyTaskProgress
+)
+
+router.get(
+  '/tracker',
+  validateRoute(getDailyTaskTrackerValidation),
+  getDailyTaskTracking
 )
 
 module.exports = router;
