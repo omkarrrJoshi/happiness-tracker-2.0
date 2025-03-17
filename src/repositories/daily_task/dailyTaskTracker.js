@@ -16,8 +16,8 @@ class DailyTaskTrackerRepository {
         WHERE 
           r.user_id = $1 
           AND r.type = $2
-          AND p.date > $3
-          AND p.date < $4
+          AND p.date >= $3
+          AND p.date <= $4
         GROUP BY r.user_id
       `;
 
