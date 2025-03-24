@@ -1,4 +1,5 @@
 const { pool } = require("../../utils/db");
+const { toISTDate } = require("../../utils/utils");
 
 const updateDailyTaskRefService = async (req) => {
   try {
@@ -30,7 +31,7 @@ const updateDailyTaskRefService = async (req) => {
     };
 
     // 3. Validate that `end_date` is not before `start_date`
-    if (updatedData.end_date != null && new Date(updatedData.end_date) < new Date(updatedData.start_date)) {
+    if (updatedData.end_date != null && toISTDate(updatedData.end_date) < toISTDate(updatedData.start_date)) {
       throw new Error("End date cannot be earlier than start date.");
     }
 

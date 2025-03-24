@@ -1,4 +1,5 @@
 const { DAILY_TASK_PROGRESS } = require("../../constants/tables");
+const { toISTDate } = require("../../utils/utils");
 
 class DailyTaskProgress {
   constructor(data) {
@@ -8,8 +9,8 @@ class DailyTaskProgress {
     this.daily_progress = data.daily_progress;
     this.daily_target = data.daily_target;
     this.date = data.date;
-    this.created_at = new Date();
-    this.updated_at = new Date();
+    this.created_at = toISTDate();
+    this.updated_at = toISTDate();
     this.deleted_at = null;
   }
 

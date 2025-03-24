@@ -8,23 +8,21 @@ class DailyTaskTrackerRepository {
   async getTracking(user_id, type, startDate, endDate) {
     try {
       const query = `
-        SELECT 
-          SUM(p.daily_progress) AS total_progress, 
-          SUM(p.daily_target) AS total_target
-        FROM ${DAILY_TASK_PROGRESS} AS p
-        JOIN ${DAILY_TASK_REF} AS r ON p.daily_task_ref_id = r.id
-        WHERE 
-          r.user_id = $1 
-          AND r.type = $2
-          AND p.date >= $3
-          AND p.date <= $4
-        GROUP BY r.user_id
-      `;
+        select 
+        r.id, max(p.date) as max_date, r.target, sum(p.daily_progress) as total_progress, sum(p.daily_target) as total_target
+        from daily_task_progress as p
+        join daily_task_ref as r on p.daily_task_ref_id = r.id
+        where 
+        r.user_id = $1 AND
+        r.type = $2 AND
+        p.date >= $3 AND
+        p.date <= $4 
+        group by r.id, r.target;
+      `
 
       const values = [user_id, type, startDate, endDate];
       const result = await this.pool.query(query, values);
-      console.log(result)
-      return result[0] || { total_progress: 0, total_target: 0 }; // Return default if no data found
+      return result;
     } catch (error) {
       console.error("Error fetching progress summary:", error);
       throw error;

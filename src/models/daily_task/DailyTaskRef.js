@@ -1,4 +1,5 @@
 const { DAILY_TASK_REF } = require("../../constants/tables");
+const { toISTDate } = require("../../utils/utils");
 
 class DailyTaskRef {
   constructor({ 
@@ -21,8 +22,8 @@ class DailyTaskRef {
     this.description = description || null;
     this.start_date = start_date;
     this.end_date = end_date || null;
-    this.created_at = new Date();
-    this.updated_at = new Date();
+    this.created_at = toISTDate();
+    this.updated_at = toISTDate();
     this.deleted_at = null;
   }
 
