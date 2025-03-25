@@ -146,6 +146,7 @@ const getDailyTasksService = async (req) => {
       }else{
         throw new Error("Something went wrong contact developer");
       }
+      console.log("taskProgress:", taskProgress);
       if(taskProgress === null | undefined){
         throw new Error("Something went wrong contact developer: taskProgress is null or undefined");
       }
@@ -181,6 +182,8 @@ const createDailyTaskProgress = async (dailyTaskRefData, current_date, start_dat
   const end = end_date; // Convert to Date object
   const currentDate = current_date;
   let currentDateProgressData = null;
+  console.log("start:", start);
+  console.log("end:", end);
   while (start <= end) {
     console.log("start:", start);
     try {
