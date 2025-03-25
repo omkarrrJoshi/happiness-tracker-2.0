@@ -114,12 +114,19 @@ const getDailyTasksService = async (req) => {
         WHERE daily_task_ref_id = $1 AND deleted_at IS NULL
         GROUP BY daily_task_ref_id
       `
+      console.log(taskRef);
+      console.log("------------------------");
       const result = await pool.query(maxDateProgressQuery, [taskRef.id]);
       let maxDateProgressResult = result.rows[0];
       let taskProgress = null;
       if(maxDateProgressResult){
+        console.log("found max progress result: ", maxDateProgressResult)
         const maxDate = maxDateProgressResult['max_date'];
         const previousAddedDate = convertToIST(maxDate);
+        console.log("previousAddedDate:", previousAddedDate);
+        console.log("maxDate:", maxDate);
+        console.log("givenDate:", givenDate);
+
         if(givenDate <= previousAddedDate){
           const progressQuery = `
             SELECT * FROM ${DAILY_TASK_PROGRESS} 
@@ -143,7 +150,7 @@ const getDailyTasksService = async (req) => {
         throw new Error("Something went wrong contact developer: taskProgress is null or undefined");
       }
       const taskResponse = new DailyTaskResponse(taskRef, taskProgress);
-
+      console.log("task response fetched");
       responseTasks.push(taskResponse);
     }
 
@@ -165,6 +172,7 @@ const getDailyTasksService = async (req) => {
 
 
 const createDailyTaskProgress = async (dailyTaskRefData, current_date, start_date, end_date) => {
+  console.log("inside createDailyTaskProgress");
   if(start_date === undefined && end_date === undefined){
     start_date = current_date;
     end_date = current_date;
@@ -174,6 +182,7 @@ const createDailyTaskProgress = async (dailyTaskRefData, current_date, start_dat
   const currentDate = current_date;
   let currentDateProgressData = null;
   while (start <= end) {
+    console.log("start:", start);
     try {
       const formattedDate = start.toISOString().split("T")[0]; // Format as YYYY-MM-DD
       const day = getDayOfWeek(formattedDate); // Get the day index (e.g., Monday -> 1)
