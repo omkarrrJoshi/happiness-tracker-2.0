@@ -5,7 +5,7 @@ const updateDailyTaskRefService = async (req) => {
   try {
     const { id } = req.params;
     const user_id = req.headers["user-id"];    
-    const { name, target, start_date, end_date, link, description } = req.body;
+    const { name, target, start_date, end_date, link, description, image_url } = req.body;
 
     // 1. Fetch the existing daily task reference
     const checkQuery = `
@@ -28,6 +28,7 @@ const updateDailyTaskRefService = async (req) => {
       end_date: end_date ?? existingData.end_date,
       link: link ?? existingData.link,
       description: description ?? existingData.description,
+      image_url: image_url ?? existingData.image_url
     };
 
     // 3. Validate that `end_date` is not before `start_date`
@@ -39,8 +40,8 @@ const updateDailyTaskRefService = async (req) => {
     const updateQuery = `
       UPDATE daily_task_ref 
       SET name = $1, target = $2, start_date = $3, end_date = $4, 
-          link = $5, description = $6, updated_at = NOW()
-      WHERE id = $7 AND user_id = $8
+          link = $5, description = $6, image_url = $7, updated_at = NOW()
+      WHERE id = $8 AND user_id = $9
       RETURNING *;
     `;
     
@@ -51,6 +52,7 @@ const updateDailyTaskRefService = async (req) => {
       updatedData.end_date,
       updatedData.link,
       updatedData.description,
+      updatedData.image_url,
       id,
       user_id,
     ];

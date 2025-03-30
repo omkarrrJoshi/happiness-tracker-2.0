@@ -22,6 +22,7 @@ const updateDailyTaskRefValidation = [
     .withMessage("End date must be a valid date"),
   body("link").optional().isString().withMessage("Link must be a string"),
   body("description").optional().isString().withMessage("Description must be a string"),
+  body("image_url").optional().isString().withMessage("image_url must be a string"),
 ];
 
 module.exports = {

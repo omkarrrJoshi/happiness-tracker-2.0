@@ -58,10 +58,13 @@ const convertToIST = (utcDateString) => {
   return new Date(utcDate.getTime() + 5.5 * 60 * 60 * 1000); // Convert to IST
 };
 
+const stripTime = (date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
 module.exports = {
   getDayOfWeek,
   getDayOfWeekByDate,
   getEndOfNextMonthWeek,
   toISTDate,
-  convertToIST
+  convertToIST,
+  stripTime
 }

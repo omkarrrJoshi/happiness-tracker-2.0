@@ -11,7 +11,8 @@ class DailyTaskRef {
     link, 
     description, 
     start_date, 
-    end_date 
+    end_date,
+    image_url
   }) {
     this.user_id = user_id;
     this.name = name;
@@ -25,6 +26,7 @@ class DailyTaskRef {
     this.created_at = toISTDate();
     this.updated_at = toISTDate();
     this.deleted_at = null;
+    this.image_url = image_url || null;
   }
 
   // Save a new daily_task_ref record
@@ -32,15 +34,15 @@ class DailyTaskRef {
     try {
       const query = `
         INSERT INTO ${DAILY_TASK_REF} (
-          user_id, name, pillar, type, target, link, description, start_date, end_date, created_at, updated_at, deleted_at
+          user_id, name, pillar, type, target, link, description, start_date, end_date, image_url, created_at, updated_at, deleted_at
         ) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW(), NOW(), $10)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW(), NOW(), $11)
         RETURNING *;
       `;
 
       const values = [
         this.user_id, this.name, this.pillar, this.type, this.target, 
-        this.link, this.description, this.start_date, this.end_date, this.deleted_at
+        this.link, this.description, this.start_date, this.end_date, this.image_url, this.deleted_at
       ];
 
       const { rows } = await pool.query(query, values);
@@ -81,13 +83,13 @@ class DailyTaskRef {
       const query = `
         UPDATE daily_task_ref
         SET name = $1, pillar = $2, type = $3, target = $4, link = $5, 
-            description = $6, start_date = $7, end_date = $8, updated_at = NOW()
-        WHERE id = $9
+            description = $6, start_date = $7, end_date = $8, image_url = $9 updated_at = NOW()
+        WHERE id = $10
         RETURNING *;
       `;
       const values = [
         this.name, this.pillar, this.type, this.target, this.link, 
-        this.description, this.start_date, this.end_date, this.id
+        this.description, this.start_date, this.end_date, this.image_url, this.id
       ];
 
       const { rows } = await pool.query(query, values);

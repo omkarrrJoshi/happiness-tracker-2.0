@@ -3,7 +3,7 @@ const DailyTaskProgress = require("../../models/daily_task/DailyTaskProgress");
 const DailyTaskRef = require("../../models/daily_task/DailyTaskRef");
 const DailyTaskResponse = require("../../models/daily_task/DailyTaskResponse");
 const { pool } = require("../../utils/db");
-const { getDayOfWeek, toISTDate, convertToIST } = require("../../utils/utils");
+const { getDayOfWeek, toISTDate, convertToIST, stripTime } = require("../../utils/utils");
 
 const createDailyTaskService = async (req) => {
   try {
@@ -87,7 +87,7 @@ const getDailyTasksService = async (req) => {
   try {
     const user_id = req.headers["user-id"];
     const { date, type } = req.query;
-    const givenDate = toISTDate(date);
+    const givenDate = stripTime(toISTDate(date));
 
     // 🔹 Fetch Daily Task References
     const refQuery = `
@@ -117,7 +117,7 @@ const getDailyTasksService = async (req) => {
       let maxDateProgressResult = result.rows[0];
       let taskProgress = null;
       if(maxDateProgressResult){
-        const maxDate = maxDateProgressResult['max_date'];
+        const maxDate = stripTime(maxDateProgressResult['max_date']);
         // const previousAddedDate = maxDate;
         // console.log("previousAddedDate:", previousAddedDate);
         console.log("maxDate:", maxDate, "givenDate:", givenDate);

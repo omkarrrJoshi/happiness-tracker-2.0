@@ -9,6 +9,7 @@ class DailyTaskResponse {
     this.type = taskRef.type;
     this.link = taskRef.link;
     this.description = taskRef.description;
+    this.image_url = taskRef.image_url;
     this.start_date = convertToIST(taskRef.start_date);
     this.end_date = taskRef.end_date ? convertToIST(taskRef.end_date) : null;
     this.target = taskRef.target;

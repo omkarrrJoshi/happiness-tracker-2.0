@@ -20,6 +20,7 @@ const createDailyTaskValidation = [
   body("start_date").isISO8601().withMessage("Start date must be a valid date"),
   body("end_date").optional().isISO8601().withMessage("End date must be a valid date"),
   body("description").optional().isString().withMessage("Description must be a string"),
+  body("image_url").optional().isString().withMessage("image_url must be a string"),
 ];
 
 // Validation rules for querying tasks (GET)
