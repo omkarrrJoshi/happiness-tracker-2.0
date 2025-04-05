@@ -5,7 +5,12 @@ class DailyTaskTrackerRepository {
     this.pool = pool;
   }
 
-  async getTracking(user_id, type, startDate, endDate) {
+  async getTracking(user_id, type, startDate, endDate, ref_id) {
+    const isAll = ref_id === "all";
+    const values = isAll 
+      ? [user_id, type, startDate, endDate]
+      : [user_id, type, startDate, endDate, ref_id];
+
     try {
       const query = `
         select 
@@ -16,11 +21,10 @@ class DailyTaskTrackerRepository {
         r.user_id = $1 AND
         r.type = $2 AND
         p.date >= $3 AND
-        p.date <= $4 
+        p.date <= $4
+        ${isAll ? '' : 'AND r.id = $5'}
         group by r.id, r.target;
       `
-
-      const values = [user_id, type, startDate, endDate];
       const result = await this.pool.query(query, values);
       return result;
     } catch (error) {

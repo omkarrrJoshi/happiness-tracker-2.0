@@ -6,13 +6,13 @@ const trackerRepo = new DailyTaskTrackerRepository(pool);
 const getDailyTaskTrackingService = async (req) => {
   try {
     const user_id = req.headers["user-id"];
-    const { type, start_date, end_date } = req.query;
+    const { type, start_date, end_date, ref_id } = req.query;
     const summary = {
       total_progress: 0,
       total_target: 0
     }
 
-    const resultData = await trackerRepo.getTracking(user_id, type, start_date, end_date);
+    const resultData = await trackerRepo.getTracking(user_id, type, start_date, end_date, ref_id);
     const endDate = toISTDate(end_date);
     resultData.forEach(result =>{
       const target = result['target'];
