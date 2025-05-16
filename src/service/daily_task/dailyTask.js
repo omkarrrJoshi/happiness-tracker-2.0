@@ -122,7 +122,7 @@ const getDailyTasksService = async (req) => {
         // const previousAddedDate = maxDate;
         // console.log("previousAddedDate:", previousAddedDate);
         console.log("maxDate:", maxDate, "givenDate:", givenDate);
-        if(givenDate >= maxDate){
+        if(givenDate <= maxDate){
           const progressQuery = `
             SELECT * FROM ${DAILY_TASK_PROGRESS} 
             WHERE daily_task_ref_id = $1 AND date = $2 AND deleted_at IS NULL
