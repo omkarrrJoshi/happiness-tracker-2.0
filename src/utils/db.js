@@ -35,8 +35,10 @@ const testDbConnection = async () => {
 // Reusable query function
 const query = async (text, params) => {
   try {
+      console.log('📝 Executing query:', { text, params });
       const result = await pool.query(text, params);
-      return result.rows; // Return only the rows
+      console.log('✅ Query executed successfully');
+      return result; // Return only the rows
   } catch (error) {
       console.error("❌ Database Query Error:", error);
       throw error; // Rethrow the error for better debugging
