@@ -1,6 +1,6 @@
 const { pool } = require("../../utils/db");
 const { MONTHLY_TASK_REF, TASK_CHAPTER_REF, TASK_CHAPTER_PROGRESS } = require("../../constants/tables");
-const TaskChapterRef = require("../../models/task_chapter/TaskChapterRef");
+const TaskChapterRef = require("../../models/task_chapter/taskChapterRef");
 const TaskChapterProgress = require("../../models/task_chapter/TaskChapterProgress");
 const { MonthlyTaskProgress } = require("../../models/monthly_task/MonthlyTaskProgress");
 
