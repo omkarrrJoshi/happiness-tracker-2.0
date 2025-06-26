@@ -10,7 +10,6 @@ exports.up = function (knex) {
     table.text("description").nullable();
     table.date("start_date").notNullable();
     table.date("end_date").nullable();
-    table.string("image_url").nullable();
     table.timestamp("created_at").notNullable().defaultTo(knex.fn.now());
     table.timestamp("updated_at").notNullable().defaultTo(knex.fn.now());
     table.timestamp("deleted_at").nullable();
