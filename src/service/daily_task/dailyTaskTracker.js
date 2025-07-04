@@ -14,7 +14,7 @@ const getDailyTaskTrackingService = async (req) => {
 
     const resultData = await trackerRepo.getTracking(user_id, type, start_date, end_date, ref_id);
     const endDate = toISTDate(end_date);
-    resultData.forEach(result =>{
+    resultData.rows.forEach(result =>{
       const target = result['target'];
       let total_progress = parseInt(result['total_progress']);
       let total_target = parseInt(result['total_target']);
