@@ -9,7 +9,8 @@ const getDailyTaskTrackingService = async (req) => {
     const { type, start_date, end_date, ref_id } = req.query;
     const summary = {
       total_progress: 0,
-      total_target: 0
+      total_target: 0,
+      total_progress_percentage: 0
     }
 
     const resultData = await trackerRepo.getTracking(user_id, type, start_date, end_date, ref_id);
@@ -29,6 +30,11 @@ const getDailyTaskTrackingService = async (req) => {
       summary['total_progress'] = summary['total_progress'] + total_progress;
       summary['total_target'] = summary['total_target'] + total_target;
     })
+
+    // Calculate percentage with division by zero protection
+    if (summary['total_target'] > 0) {
+      summary['total_progress_percentage'] = Math.round((summary['total_progress'] * 10000) / summary['total_target']) / 100;
+    }
     
     return {
       success: true,
